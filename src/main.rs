@@ -1,3 +1,29 @@
+use std::cmp::Ordering;
+use std::io;
+use rand::Rng;
+
 fn main() {
-    println!("Hello, world!");
+    println!("Adivinhe o número!");
+
+    let secret_number = rand::thread_rng().gen_range(1..=100);
+
+    println!("De o seu chute: digite um número entre 1 e 100.");
+
+    let mut guess = String::new();
+
+    io::stdin()
+        .read_line(&mut guess)
+        .expect("Falha ao ler a linha");
+
+    let guess: u32 = guess.trim().parse().expect("Por favor, digite um número!");
+    
+    println!("Você chutou: {}", guess);
+
+    println!("O número secreto é: {}", secret_number);
+
+    match guess.cmp(&secret_number){
+        Ordering::Less => println!("Muito baixo!"),
+        Ordering::Greater => println!("Muito alto!"),
+        Ordering::Equal => println!("Você acertou!")
+    }
 }
