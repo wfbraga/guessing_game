@@ -7,7 +7,7 @@ fn main() {
     loop {
         println!("Adivinhe o número!");   
 
-        println!("De o seu chute: digite um número entre 1 e 100.");
+        println!("De o seu chute: digite um número entre 1 e 100. Ou Ctrl+C para sair.");
 
         let mut guess = String::new();
 
@@ -15,17 +15,18 @@ fn main() {
             .read_line(&mut guess)
             .expect("Falha ao ler a linha");
 
-        let guess: u32 = guess.trim().parse().expect("Por favor, digite um número!");
-        
-        println!("Você chutou: {}", guess);
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
-        println!("O número secreto é: {}", secret_number);
+        println!("Você chutou: {}", guess);
 
         match guess.cmp(&secret_number){
             Ordering::Less => println!("Muito baixo!"),
             Ordering::Greater => println!("Muito alto!"),
             Ordering::Equal => {
-                println!("Você acertou!");
+                println!("Parabéns! Você acertou!");
                 break;
             }
         }
